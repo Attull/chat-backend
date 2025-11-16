@@ -1,11 +1,10 @@
 const express = require("express");
 const Ticket = require("../models/Ticket");
-const auth = require("../middleware/auth");
 
 const router = express.Router();
 
 // Create ticket (user)
-router.post("/", auth, async (req, res) => {
+router.post("/", async (req, res) => {
   const { title, description, priority } = req.body;
   const ticket = await Ticket.create({
     title,
@@ -17,7 +16,7 @@ router.post("/", auth, async (req, res) => {
 });
 
 // My tickets
-router.get("/mine", auth, async (req, res) => {
+router.get("/mine", async (req, res) => {
   const tickets = await Ticket.find({ createdBy: req.user._id }).sort({
     createdAt: -1,
   });
@@ -25,9 +24,7 @@ router.get("/mine", auth, async (req, res) => {
 });
 
 // Admin: list all
-router.get("/", auth, async (req, res) => {
-  if (req.user.role !== "admin")
-    return res.status(403).json({ message: "Forbidden" });
+router.get("/", async (req, res) => {
   const tickets = await Ticket.find().populate("createdBy", "name email");
   res.json(tickets);
 });

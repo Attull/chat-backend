@@ -3,10 +3,10 @@ const mongoose = require("mongoose");
 const cors = require("cors");
 require("dotenv").config();
 
-const authRoutes = require("./src/routes/auth");
 const articleRoutes = require("./src/routes/articles");
 const ticketRoutes = require("./src/routes/tickets");
 const aiRoutes = require("./src/routes/ai");
+const pdfRoutes = require("./src/routes/pdf");
 
 const app = express();
 
@@ -18,10 +18,10 @@ app.get("/api/health", (req, res) => {
   res.json({ status: "ok" });
 });
 
-app.use("/api/auth", authRoutes);
 app.use("/api/articles", articleRoutes);
 app.use("/api/tickets", ticketRoutes);
 app.use("/api/ai", aiRoutes);
+app.use("/api/pdf", pdfRoutes);
 
 const PORT = process.env.PORT || 5000;
 
